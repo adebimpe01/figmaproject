@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Figma Project</title>
+  <link href="style.css" rel="stylesheet">
+  <link rel="stylesheet" href="./fontawesome-assets/css/all.min.css">
+</head>
+<body class="bg-gray-50 ">
+
+  <!-- Header -->
+<div>
+  <header class="fixed w-full flex justify-between items-center py-0 px-3 md:px-5 md:py-3 bg-white">
+      <div class="flex justify-between items-center px-1 md:px-3 py-3 md:hidden">
+          <!-- Left Section -->
+        <div class="flex items-center space-x-4">
+          <!-- Hamburger -->
+          <button id="menu-btn" class=" text-md text-gray-700 bg-gray-100 w-9 h-9 rounded focus:outline-none">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        
+        <div class="hidden xl:flex items-center space-x-2 text-sm text-gray-700 relative">
+          <!-- Categories Dropdown -->
+          <nav id="addressMenu" class="absolute top-10 left-0 bg-white border border-gray-200 rounded-md shadow-md w-48 hidden">
+            <ul class="py-2 text-sm text-gray-700">
+              <li><a href="#" class="block px-4 py-2 hover:bg-green-600 hover:text-white rounded-md">All Categories</a></li>
+              <li><a href="#" class="block px-4 py-2 hover:bg-green-600 hover:text-white rounded-md">Electronics</a></li>
+              <li><a href="#" class="block px-4 py-2 hover:bg-green-600 hover:text-white rounded-md">Jewelery</a></li>
+              <li><a href="#" class="block px-4 py-2 hover:bg-green-600 hover:text-white rounded-md">Men’s Clothing</a></li>
+              <li><a href="#" class="block px-4 py-2 hover:bg-green-600 hover:text-white rounded-md">Women’s Clothing</a></li>
+            </ul>
+          </nav>
+      </div>
+    </div>
+
+    <!-- Left: Logo + Address -->
+    <div class="flex items-center space-x-6">
+      <!-- Logo -->
+      <div class="flex items-center space-x-1">
+        <img src="./img/company-logo.png" alt="Company Logo" class="w-6 h-5 md:h-8 md:w-10">
+        <div class="leading-tight">
+          <h1 class="text-sm md:text-xl font-bold">Company</h1>
+          <p class="text-xxxs md:text-xxs text-gray-600">Your Trusted Partner</p>
+        </div>
+      </div>
+
+      <!-- Address (visible on xl screens) -->
+      <div class="hidden xl:flex items-center space-x-2 text-sm text-gray-600 relative">
+        <i class="fa-solid fa-location-dot text-gray-500 cursor-pointer"></i>
+        <p class="text-xs">61 Hooper Street...</p>
+
+        <!-- Button -->
+        <button id="addressBtn" class="flex items-center text-gray-600 px-2 py-1 rounded transition">
+          <i id="addressChevron" class="fas fa-chevron-down"></i>
+        </button>
+
+        <!-- Address Dropdown -->
+        <div id="addressDropdown" class="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg p-3 hidden z-20">
+          <h3 class="font-semibold text-gray-700 mb-1 border-b border-gray-200 pb-1">Address</h3>
+          <p class="text-xs text-gray-600">61 Hooper Street, New York, NY 10002</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Middle: Search Bar -->
+    <div class="relative items-center flex-1 max-w-xl mx-4 hidden md:flex">
+      <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+      <input
+        type="text"
+        placeholder="Search for products..." id="search"
+        class="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md bg-gray-100
+               focus:outline-none focus:ring-2 text-sm focus:ring-red-500"
+      >
+    </div>
+    <!-- Little Search Icons -->
+    <div class="flex items-center md:space-x-4 space-x-2">
+      <a href="#" class="flex md:hidden items-end-left"><i class="fas fa-search rounded text-gray-400 p-2 bg-gray-100 hover:bg-green-600 hover:text-white text-sm transition "></i></a>
+
+      <!-- Language Dropdown -->
+      <div class="relative text-left">
+        <button
+          id="dropdownButton"
+          class="flex items-center justify-between bg-gray-100 py-2 px-3 rounded-md w-16 text-sm shadow
+                 hover:text-darkBlue focus:outline-none focus:ring-2 focus:ring-red-500 transition"
+          aria-expanded="false"
+        >
+          <span id="selectedOption" class="text-xs">En</span>
+          <i class="fas fa-chevron-down ml-1 text-xs text-gray-400"></i>
+        </button>
+
+        <div id="dropdownMenu"
+             class="absolute hidden mt-2 w-24 bg-white border border-gray-200 rounded-md shadow-md z-10">
+          <div class="dropdown-option flex items-center justify-between px-4 py-2 text-sm cursor-pointer hover:bg-green-500 hover:text-white transition" data-value="En">
+            <i class="fas fa-check text-gray-400 text-xs hidden"></i>
+            <span class="text-xs">En</span>
+          </div>
+          <div class="dropdown-option flex items-center justify-between px-4 py-2 text-sm cursor-pointer hover:bg-green-500 hover:text-white transition" data-value="Es">
+            <i class="fas fa-check text-gray-400 text-xs hidden"></i>
+            <span class="text-xs">Es</span>
+          </div>
+          <div class="dropdown-option flex items-center justify-between px-4 py-2 text-sm cursor-pointer hover:bg-green-500 hover:text-white transition" data-value="Fr">
+            <i class="fas fa-check text-gray-400 text-xs hidden"></i>
+            <span class="text-xs">Fr</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Icons -->
+      <div class=" relative flex items-center space-x-1 md:space-x-3">
+        <a href="#" class="hidden md:flex"><i class="fas fa-user rounded text-gray-400 text-xs p-2 bg-gray-100 hover:bg-green-600 hover:text-white hover:transition "></i></a>
+        <a href="#"><i class="fas fa-heart rounded text-gray-400 text-xs p-2 bg-gray-100 hover:bg-green-600 hover:text-white hover:transition"></i>
+          <span class="absolute top-0 right-12 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs rounded-full px-1">0</span>
+        </a>
+        <a href="#"><i class="fas fa-shopping-cart rounded text-gray-400 text-xs p-2 bg-gray-100 hover:bg-green-600 hover:text-white hover:transition"></i>
+          <span class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs rounded-full px-1">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  </header>
+
+  <div class="flex justify-between items-center pt-20 px-6 py-2 bg-gray-100 overflow-x-auto scrollbar-hide">
+    
+    <!-- Left Section -->
+    <div class="hidden md:flex space-x-4 px-4 hover:bg-green-600 hover:text-white hover:rounded-md p-2 cursor-pointer"> 
+      <div class="flex items-center space-x-4">
+        <!-- Hamburger -->
+        <button id="menu-btn" class="text-sm text-gray-600 focus:outline-none ">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <!-- Middle Section: Address / Categories -->
+      <div class="items-center flex space-x-2 w-32 text-sm text-gray-700 relative">
+        <p class="font-medium text-gray-600">All Categories</p>
+        <button id="addressBtn" class="flex items-center px-2 py-1 rounded transition">
+          <i id="addressChevron" class="fas fa-chevron-down"></i>
+        </button>
+
+        <!-- Address Dropdown -->
+        <nav id="addressMenu" class="absolute top-10 left-0 bg-white border border-gray-200 rounded-md shadow-md w-48 hidden">
+          <ul class="py-2 text-sm text-gray-700">
+            <li><a href="#" class="block px-4 py-2 hover:bg-green-600 hover:text-white rounded-md">All Categories</a></li>
+            <li><a href="#" class="block px-4 py-2 hover:bg-green-600 hover:text-white rounded-md">Electronics</a></li>
+            <li><a href="#" class="block px-4 py-2 hover:bg-green-600 hover:text-white rounded-md">Jewelery</a></li>
+            <li><a href="#" class="block px-4 py-2 hover:bg-green-600 hover:text-white rounded-md">Men’s Clothing</a></li>
+            <li><a href="#" class="block px-4 py-2 hover:bg-green-600 hover:text-white rounded-md">Women’s Clothing</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <!-- Right Section -->
+      <div class="flex items-center space-x-6 text-gray-600 text-xs md:text-sm md:space-x-6 min-w-max">
+        <div class="flex items-center space-x-2 hover:bg-green-600 hover:text-white hover:rounded-md p-2 cursor-pointer">
+          <i class="fa-solid fa-tag"></i><span>Today's Deals</span>
+        </div>
+        <div class="flex items-center space-x-2 hover:bg-green-600 hover:text-white hover:rounded-md  transition p-2 cursor-pointer">
+          <i class="fa-solid fa-star"></i><span>New Arrivals</span>
+        </div>
+        <div class="flex items-center space-x-2 hover:bg-green-600 hover:text-white hover:rounded-md  transition p-2 cursor-pointer">
+          <i class="fa-solid fa-percent"></i><span>Clearance</span>
+        </div>
+        <div class="flex items-center space-x-2 hover:bg-green-600 hover:text-white hover:rounded-md  transition p-2 cursor-pointer">
+          <i class="fa-solid fa-bullhorn"></i><span>Promotions</span>
+        </div>
+        <div class="flex items-center space-x-2 hover:bg-green-600 hover:text-white hover:rounded-md  transition p-2 cursor-pointer">
+          <i class="fa-solid fa-gift"></i><span>Gift Cards</span>
+        </div>
+        <div class="flex items-center space-x-2 hover:bg-green-600 hover:text-white hover:rounded-md  transition p-2 cursor-pointer">
+          <i class="fa-solid fa-store"></i><span>Sell on BASAR</span>
+        </div>
+        <div class="flex items-center space-x-2 hover:bg-green-600 hover:text-white hover:rounded-md  transition p-2 cursor-pointer">
+          <i class="fa-solid fa-headset"></i><span>Customer Service</span>
+        </div>
+      </div>
+  </div>
+
+
+  <!-- Slide -->
+  <div class="px-5 pt-10 md:px-10">
+    <div class="w-full overflow-hidden bg-darkBlue text-white rounded-md">
+      <!-- Slides Wrapper -->
+      <div id="slider" class="flex transition-transform duration-700 ease-in-out py-20">
+        <!-- Slide 1 -->
+        <div class="flex justify-between items-center w-full flex-shrink-0 px-20">
+          <div class="space-y-3">
+            <p class="text-xs">Power Your Productivity</p>
+            <h1 class="text-5xl font-semibold">ULTRA LAPTOP</h1>
+            <h3 class="text-xl">Up to 60% OFF</h3>
+          </div>
+          <img src="./img/samgung1.jfif" alt="" class="h-52 w-52 object-cover hidden md:flex">
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="flex justify-between items-center w-full flex-shrink-0 px-20">
+          <div class="space-y-3">
+            <p class="text-xs">Level Up Your Style</p>
+            <h1 class="text-5xl font-semibold">TRENDY WEARS</h1>
+            <h3 class="text-xl">Up to 40% OFF</h3>
+          </div>
+          <img src="./img/flatscreen3.jfif" alt="" class="h-52 w-52 object-cover hidden md:flex">
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="flex justify-between items-center w-full flex-shrink-0 px-20">
+          <div class="space-y-3">
+            <p class="text-">Experience the Future</p>
+            <h1 class="text-5xl font-semibold">SMART DEVICES</h1>
+            <h3 class="text-xl">Up to 30% OFF</h3>
+          </div>
+          <img src="./img/game2.jfif" alt="" class="h-52 w-52 object-cover hidden md:flex">
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <button id="prev" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white text-green-500 hover:bg-green-500 hover:text-white p-8 rounded-full">
+        <i class="fas fa-chevron-left text-sm"></i>
+      </button>
+      <button id="next" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white text-green-500 hover:bg-green-500 hover:text-white p-8 rounded-full">
+        <i class="fas fa-chevron-right text-sm"></i>
+      </button>
+    </div>
+  </div>
+  <div class="flex">
+  <div class="hidden xl:flex">
+    <div class="flex-col">
+      <div class="bg-white p-10 space-y-4 text-gray-800 text-xs border-b-2 border-b-gray-300">
+        <h2 class="mb-8">CATEGORY</h2>
+        <div class="flex space-x-2 font-semibold">
+            <input 
+              type="checkbox" 
+              class="appearance-none w-5 h-5 bg-white rounded-full border border-green-600 checked:bg-green-600 shadow-md"
+            />
+          <p class="">All</p>
+        </div>
+         <div class="flex space-x-2 font-semibold">
+            <input 
+              type="checkbox" 
+              class="appearance-none w-5 h-5 bg-white rounded-full border border-green-600 checked:bg-green-600 shadow-md"
+            />
+          <p>Electronics</p>
+        </div>
+         <div class="flex space-x-2 font-semibold">
+            <input 
+              type="checkbox" 
+              class="appearance-none w-5 h-5 bg-white rounded-full border border-green-600 checked:bg-green-600 shadow-md"
+            />
+          <p>Jewelery</p>
+        </div>
+         <div class="flex space-x-2 font-semibold">
+            <input 
+              type="checkbox" 
+              class="appearance-none w-5 h-5 bg-white rounded-full border border-green-600 checked:bg-green-600 shadow-md"
+            />
+          <p>Men's Clothing</p>
+        </div>
+         <div class="flex space-x-2 font-semibold">
+            <input 
+              type="checkbox" 
+              class="appearance-none w-5 h-5 bg-white rounded-full border border-green-600 checked:bg-green-600 shadow-md"
+            />
+          <p>Women's Clothing</p>
+        </div>
+      </div>
+
+      <!-- RANGE SECTION -->
+      <div class="p-10 bg-white w-80 rounded-lg shadow-md">
+        <p class="text-sm text-gray-600 font-semibold mb-4">PRICE RANGE</p>
+
+          <!-- SLIDER -->
+          <div class="relative w-full h-1 bg-gray-100 rounded-full">
+            <!-- Progress bar -->
+            <div id="progress" class="absolute h-1 bg-green-500 rounded-full"></div>
+          </div>
+
+          <!-- Dual range inputs (hidden behind each other) -->
+          <input 
+            type="range" 
+            id="minRange" 
+            min="0" 
+            max="10000" 
+            value="0"
+            class="absolute w-60 appearance-none bg-transparent pointer-events-auto accent-green-500 mt-[-8px]"
+            style="z-index: 30;"
+          />
+          <input 
+            type="range" 
+            id="maxRange" 
+            min="0" 
+            max="10000" 
+            value="10000"
+            class="absolute w-60 appearance-none bg-transparent pointer-events-auto accent-green-500 mt-[-8px]"
+            style="z-index: 20;"
+            
+          />
+
+          <!-- PRICE INPUTS -->
+          <div class="flex justify-between mt-5">
+            <div class="space-y-2">
+              <p class="text-gray-600 text-xs">Min Price</p>
+              <div class="relative">
+                <span class="absolute left-2 top-1 text-gray-500">$</span>
+                <input 
+                  id="minInput"
+                  type="number" 
+                  min="0" 
+                  max="10000" 
+                  value="0"
+                  class="text-gray-800 rounded-md p-2 pl-5 w-28 h-8 border border-gray-400"
+                >
+              </div>
+            </div>
+            <div class="space-y-2">
+              <p class="text-gray-600 text-xs">Max Price</p>
+              <div class="relative">
+                <span class="absolute left-2 top-1 text-gray-500">$</span>
+                <input 
+                  id="maxInput"
+                  type="number" 
+                  min="0" 
+                  max="10000" 
+                  value="10000"
+                  class="text-gray-800 rounded-md p-2 pl-5 w-28 h-8 border border-gray-400"
+                >
+              </div>
+            </div>
+          </div>
+          <div class="flex-col justify-center items-center space-y-3 mt-4 text-gray-700 text-sm">
+            <div class="flex space-x-2 font-semibold">
+              <input 
+              type="checkbox" 
+              class="appearance-none w-5 h-5 bg-white rounded-full border border-green-600 checked:bg-green-600 shadow-md"
+              />
+             <p class="">All Price</p>
+            </div>
+            <div class="flex space-x-2 font-semibold">
+              <input 
+              type="checkbox" 
+              class="appearance-none w-5 h-5 bg-white rounded-full border border-green-600 checked:bg-green-600 shadow-md"
+              />
+              <p>Under $20</p>
+            </div>
+            <div class="flex space-x-2 font-semibold">
+              <input 
+              type="checkbox" 
+              class="appearance-none w-5 h-5 bg-white rounded-full border border-green-600 checked:bg-green-600 shadow-md"
+              />
+              <p>$25 to $100</p>
+            </div>
+            <div class="flex space-x-2 font-semibold">
+              <input 
+              type="checkbox" 
+              class="appearance-none w-5 h-5 bg-white rounded-full border border-green-600 checked:bg-green-600 shadow-md"
+              />
+              <p>$100 to $300</p>
+            </div>
+            <div class="flex space-x-2 font-semibold">
+              <input 
+              type="checkbox" 
+              class="appearance-none w-5 h-5 bg-white rounded-full border border-green-600 checked:bg-green-600 shadow-md"
+              />
+              <p>$300 to $500</p>
+            </div>
+            <div class="flex space-x-2 font-semibold">
+              <input 
+              type="checkbox" 
+              class="appearance-none w-5 h-5 bg-white rounded-full border border-green-600 checked:bg-green-600 shadow-md"
+              />
+              <p>$500 to $1000</p>
+            </div>
+            <div class="flex space-x-2 font-semibold">
+              <input 
+              type="checkbox" 
+              class="appearance-none w-5 h-5 bg-white rounded-full border border-green-600 checked:bg-green-600 shadow-md"
+              />
+              <p>$1000 to $10000</p>
+            </div>
+          </div>
+          <p class="border-b-2 mt-5 w-full"></p>
+          <div class="mt-6 space-y-2">
+            <p class="text-sm font-semibold text-gray-500">POPULAR BRAND</p>
+            <div class="flex space-x-6 text-xs text-gray-600">
+              <div class="flex-column space-y-2">
+                  <div class="flex space-x-2">
+                    <input type="checkbox" class="appearance-none w-3 h-3 bg-white border border-green-600 checked:bg-green-600">
+                    <p>Apple</p>
+                  </div>
+                  <div class="flex space-x-2">
+                    <input type="checkbox" class="appearance-none w-3 h-3 bg-white border border-green-600 checked:bg-green-600">
+                    <p>Dell</p>
+                  </div>
+                  <div class="flex space-x-2">
+                    <input type="checkbox" class="appearance-none w-3 h-3 bg-white border border-green-600 checked:bg-green-600">
+                    <p>Sony</p>
+                  </div>
+                  <div class="flex space-x-2">
+                    <input type="checkbox" class="appearance-none w-3 h-3 bg-white border border-green-600 checked:bg-green-600">
+                    <p>One Plus</p>
+                  </div>
+              </div>
+              <div class="flex-column space-y-2">
+                <div class="flex space-x-2">
+                    <input type="checkbox" class="appearance-none w-3 h-3 bg-white border border-green-600 checked:bg-green-600">
+                    <p>Microsoft</p>
+                  </div>
+                  <div class="flex space-x-2">
+                    <input type="checkbox" class="appearance-none w-3 h-3 bg-white border border-green-600 checked:bg-green-600">
+                    <p>Symphony</p>
+                  </div>
+                  <div class="flex space-x-2">
+                    <input type="checkbox" class="appearance-none w-3 h-3 bg-white border border-green-600 checked:bg-green-600">
+                    <p>LG</p>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <p class="border-b-2 mt-5 w-full"></p>
+          <div class="mt-5 space-y-2 text-gray-800 ">
+            <h3>POPULAR TAG</h3>
+            <div class="flex space-x-2">
+              <p class="flex items-center justify-center w-20 h-7 text-xs rounded-md border border-gray-400 ">Game</p>
+              <p class="flex items-center justify-center w-20 h-7 text-xs rounded-md border border-gray-500 ">iPhone</p>
+              <p class="flex items-center justify-center w-10 h-7 text-xs rounded-md border border-gray-500 ">TV</p>
+            </div>
+            <div class="flex space-x-2">
+              <p class="flex items-center justify-center w-28 h-7 text-xs rounded-md border border-gray-500 ">Asus Laptops</p>
+              <p class="flex items-center justify-center w-20 h-7 text-xs rounded-md border border-gray-500 ">Macbook</p>
+            </div>
+            <div class="flex space-x-2">
+              <p class="flex items-center justify-center w-12 h-7 text-xs rounded-md border border-gray-500 ">SSD</p>
+              <p class="flex items-center justify-center w-28 h-7 text-xs rounded-md border border-gray-500 ">Graphic cards</p>
+            </div>
+            <div class="flex space-x-2">
+              <p class="flex items-center justify-center w-24 h-7 text-xs rounded-md border border-gray-500 ">Power Bank</p>
+              <p class="flex items-center justify-center w-24 h-7 text-xs rounded-md border border-gray-500 ">Smart TV</p>
+            </div>
+            <div class="flex space-x-2">
+              <p class="flex items-center justify-center w-20 h-7 text-xs rounded-md border border-gray-500 ">Speaker</p>
+              <p class="flex items-center justify-center w-16 h-7 text-xs rounded-md border border-gray-500 ">Tablet</p>
+            </div>
+            <div class="flex space-x-2">
+              <p class="flex items-center justify-center w-20 h-7 text-xs rounded-md border border-gray-500 ">Microwave</p>
+              <p class="flex items-center justify-center w-20 h-7 text-xs rounded-md border border-gray-500 ">Samsung</p>
+            </div>
+          </div>
+          <div class="flex-column text-center justify-center mt-10 bg-white border border-gray-200 p-4 rounded-md">
+            <img src="./img/watch1.jfif" alt="watch" class="w-52 h-52 object-cover">
+            <div class="text-center mt-5">
+              <h3 class="text-3xl font-bold">WATCH</h3>
+              <p class="text-sm font-semibold text-red-500">SERIES 7</p>
+            </div>
+            <div class="text-center justify-center mt-5 bg-white">
+              <h1 class="text-center text-2xl font-semibold text-gray-800">Heavy on <br> Features</h1>
+              <h1 class="text-2xl font-semibold text-gray-800">Light on Price</h1>
+            </div>
+            <div class="flex justify-center items-center mt-5 space-x-2">
+              <p class="text-xs text-gray-600 mt-1">Only for:</p>
+              <span class="flex bg-gray-400 text-md text-gray-700 items-center justify-center p-1 rounded-md">$229 USD</span>
+            </div>
+            <div class="space-y-3 mt-5">
+              <button class="flex justify-center items-center w-full text-sm font-semibold bg-green-600 p-1 text-white rounded-md">
+               <i class="fas fa-shopping-cart rounded text-white text-xs p-2"></i>
+               <p>ADD TO CART</p>
+              </button>
+              <button class="flex justify-center items-center w-full text-sm font-semibold text-green-600 p-1 border border-green-600 rounded-md">
+               <p>VIEW DETAILS</p>
+               <i class="fas fa-arrow-right rounded text-green-600 text-xs p-2"></i>
+              </button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+ <div class="p-4">
+  <div class="flex justify-between items-center w-full">
+    <button class="flex xl:hidden items-center space-x-2 bg-green-600 text-white px-4 py-2  rounded-md">
+      <i class="fa-solid fa-filter"></i>
+      <p>Filters</p>
+    </button>
+  
+    <div class="xl:px-4 px-1 py-2 flex flex-wrap xl:justify-between justify-start items-center space-x-2">
+      <p class="text-sm text-gray-500">Sort by: </p>
+      <!-- Left side -->
+      <div class="relative inline-block text-left">
+        <button 
+          class="border border-gray-400 rounded-md p-2 text-gray-700 text-sm flex items-center justify-between w-24 xl:w-32"
+          id="sortButton"
+        >
+          <span id="selectedText">Default</span>
+          <i class="fa fa-chevron-down ml-2 text-xs text-gray-400"></i>
+        </button>
+
+        <div 
+          class="absolute mt-1 w-32 bg-white border border-gray-300 rounded-md shadow-md hidden"
+          id="sortOptions">
+          <div 
+            class="p-2 hover:bg-green-500 hover:text-white text-sm flex items-center justify-between cursor-pointer" 
+            data-value="default"
+          >
+          <p>Default</p> 
+            <i class="fa fa-check text-sm hidden"></i>
+          </div>
+          <div 
+            class="p-2 hover:bg-green-500 hover:text-white flex items-center justify-between cursor-pointer" 
+            data-value="asc"
+          >
+          <p>Ascending</p>
+          </div>
+          <div 
+            class="p-2 hover:bg-green-500 hover:text-white flex items-center justify-between cursor-pointer" 
+            data-value="desc">
+            <p>Descending</p>
+          </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="flex-column xs:flex xs:p-3 p-4 pb-2 justify-between items-center w-full bg-gray-200 rounded-md text-sm text-gray-500">
+    <p class="truncate">Active Filter: None</p>
+    <p><span class="text-gray-800 font-medium">20</span> Products found.</p>
+  </div>
+
+  <div class="p-0 md:p-4">
+    <div class="grid grid-cols-2 xl:grid-cols-4 xs:grid-cols-3">
+      <div class="p-3 w-full hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/jacket3.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/jacket2.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/jacket4.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/jacket5.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/game2.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/game4.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/game4.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/game2.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/flatscreen1.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/flatscreen3.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/flatsreen2.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/airpod1.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/jacket5.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/07def52b-4af9-433a-b15c-655234f89678.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/samsung3.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/samgung1.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/66d4791f-1a7f-478b-81d0-7df572e4c6aa.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/8a69d96a-5b9b-4b85-a4b5-500a6aeb9453.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/game4.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/watch1.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/top5.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/top4.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/top3.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/top2.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/top2.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/top2.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/top2.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/top2.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/top2.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+      <div class="p-3 hover:border hover:border-green-600 hover:rounded hover:transition-all">
+        <img src="./img/top2.jfif" alt="" class="bg-gray-50 px-4 py-1 w-80 h-60 rounded-md object-contain mb-3 hover:transition-all">
+        <div class="flex space-x-10 ">
+          <div class="flex text-xs text-green-500 space-x-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-gray-500 text-xs">(120)</p>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-gray-800 font-semibold text-sm">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h3>
+          <p class="text-green-500 mt-3 text-lg">$109.95</p>
+        </div>
+      </div>
+  </div>
+    <div class="flex items-center justify-center space-x-4 mt-8">
+      <i class="fas fa-arrow-left bg-white text-green-500 border border-green-500 rounded-full p-3"></i>
+      <p class="text-white bg-green-500 border border-green-500 rounded-full h-10 w-10 p-2 text-center">1</p>
+      <i class="fas fa-arrow-right bg-white text-green-500 border border-green-500 rounded-full p-3"></i>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+  <div class="px-4 xl:px-8 py-10 grid grid-cols-3 xs:grid-cols-4 bg-gray-800 text-white text-xs xl:text-sm">
+    <div class="mb-4 xl:w-full">
+      <div class="flex items-center space-x-1">
+        <img src="./img/company-logo.png" alt="Company Logo" class="w-6 h-5 md:h-8 md:w-10">
+        <div class="leading-tight">
+          <h1 class="text-sm md:text-xl font-bold">Company</h1>
+          <p class="text-xxxs md:text-xxs text-gray-600">Your Trusted Partner</p>
+        </div>
+      </div>
+      <h4 class="flex mt-4 text-gray-50 text-xs">BAZAR brings everything you need in one place.Now stay connected to luxury.</h4>
+    </div>
+    
+      <div class="space-y-5">
+        <h3 class="font-semibold">Quick Links</h3>
+        <div class="flex flex-col space-y-2 text-gray-50">
+          <a href="" class="hover:text-red-400">Deals</a>
+          <a href="" class="hover:text-red-400">Categories</a>
+          <a href="" class="hover:text-red-400">About Us</a>
+          <a href="" class="hover:text-red-400">Contact Us</a>
+        </div>
+      </div>
+        <div class="space-y-5">
+        <h3 class="font-semibold">Customer Service</h3>
+        <div class="flex flex-col space-y-2 text-gray-50">
+          <a href="" class="hover:text-red-400">Help Center</a>
+          <a href="" class="hover:text-red-400">Returns</a>
+          <a href="" class="hover:text-red-400">Shipping info</a>
+          <a href="" class="hover:text-red-400">FAQs</a>
+        </div>
+      </div>
+      <div class="space-y-5">
+        <h3 class="font-semibold">Follow Us</h3>
+        <div class="flex flex-col space-y-2 text-gray-50">
+          <a href="" class="hover:text-red-400">Help Center</a>
+          <a href="" class="hover:text-red-400">Returns</a>
+          <a href="" class="hover:text-red-400">Shipping info</a>
+          <a href="" class="hover:text-red-400">FAQs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="p-5 text-sm text-center items-center justify-center bg-black text-white">
+      <p>© 2025 BAZAR. All rights reserved.</p>
+    </div>
+  </footer>
+<script src="script.js"></script>
+</body>
+</html>
