@@ -2,12 +2,10 @@
   "name": "my-first-figma-project",
   "version": "1.0.0",
   "description": "",
-
   "main": "index.js",
-
   "scripts": {
-   "build": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
-    "watch": "tailwindcss -i ./input.css -o ./style.css --watch"
+    "build": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
+    "watch": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
   },
   "keywords": [],
   "author": "",
