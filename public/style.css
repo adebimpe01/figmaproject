@@ -347,7 +347,7 @@ button,
 input:where([type='button']),
 input:where([type='reset']),
 input:where([type='submit']) {
-  -webkit-appearance: button;
+  j: button;
   /* 1 */
   background-color: transparent;
   /* 2 */
