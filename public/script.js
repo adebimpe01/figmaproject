@@ -3,11 +3,19 @@ const menuBtn = document.getElementById("menu-btn");
 const addressMenu = document.getElementById("addressMenu");
 const closeMenu = document.getElementById("closeMenu");
 const overlay = document.getElementById("overlay");
+const filtersButton = document.getElementById("filtersButton");
 
 menuBtn.addEventListener("click", () => {
     menuBtn.classList.toggle("open");
     addressMenu.classList.toggle("-translate-x-full");
     overlay.classList.toggle("hidden");
+});
+
+// Filters button opens the same menu
+filtersButton.addEventListener("click", () => {
+    menuBtn.classList.add("open");
+    addressMenu.classList.remove("-translate-x-full");
+    overlay.classList.remove("hidden");
 });
 
 // click red X
@@ -138,6 +146,7 @@ overlay.addEventListener("click", () => {
     index = (index + 1) % totalSlides;
     updateSlider();
   }, 4000);
+// (Removed premature updatePriceFilter call — initialization happens after price variables are declared)
 
 
 
@@ -166,263 +175,314 @@ overlay.addEventListener("click", () => {
 })();
 
  
-  // PRICE RANGE FUNCTION
-  function initPriceRange() {
-    const minRange = document.getElementById("minRange");
-    const maxRange = document.getElementById("maxRange");
-    const minInput = document.getElementById("minInput");
-    const maxInput = document.getElementById("maxInput");
-    const progress = document.getElementById("progress");
+const productGrid = document.getElementById("productGrid");
 
+let allProducts = [];
+let selectedCategory = "all";
+let minPrice = 0;
+let maxPrice = 10000;
+let sortBy = "default"; // default, asc, desc
+
+/* FETCH PRODUCTS */
+async function fetchProducts() {
+  const res = await fetch("https://fakestoreapi.com/products");
+  const data = await res.json();
+
+  allProducts = data.map(p => ({
+    id: p.id,
+    title: p.title,
+    price: Math.round(p.price * 1600), // USD → ₦
+    image: p.image,
+    category: normalizeCategory(p.category),
+  }));
+
+  // Update slider maximums to match fetched product prices (in ₦)
+  const maxProductPrice = Math.max(...allProducts.map(p => p.price), 10000);
+
+  const rangeIds = ['minRange','maxRange','minRangeDesktop','maxRangeDesktop'];
+  rangeIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.max = String(maxProductPrice);
+      if (id.toLowerCase().includes('maxrange')) el.value = String(maxProductPrice);
+    }
+  });
+
+  const inputIds = ['minInput','maxInput','minInputDesktop','maxInputDesktop'];
+  inputIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.max = String(maxProductPrice);
+      if (id.toLowerCase().includes('maxinput')) el.value = String(maxProductPrice);
+    }
+  });
+
+  // Initialize price filter to full range based on fetched products
+  updatePriceFilter(0, maxProductPrice);
+
+  applyFilters();
+
+  // Now initialize sliders AFTER products are fetched and max values are set
+  initAllRanges();
+}
+
+/* CATEGORY MAP */
+function normalizeCategory(cat) {
+  if (cat.includes("electronics")) return "electronics";
+  if (cat.includes("jewelery")) return "jewelery";
+  if (cat.includes("men")) return "men";
+  if (cat.includes("women")) return "women";
+  return "all";
+}
+
+/* APPLY FILTERS */
+function applyFilters() {
+  let filtered = allProducts.filter(p => {
+    return (
+      (selectedCategory === "all" || p.category === selectedCategory) &&
+      p.price >= minPrice &&
+      p.price <= maxPrice
+    );
+  });
+
+  // Apply sorting
+  if (sortBy === "asc") {
+    filtered.sort((a, b) => a.price - b.price);
+  } else if (sortBy === "desc") {
+    filtered.sort((a, b) => b.price - a.price);
+  }
+
+  renderProducts(filtered);
+  
+  // Update product count
+  const countEl = document.getElementById("productCount");
+  if (countEl) countEl.textContent = filtered.length;
+  
+  // Update active filter text
+  const activeFilterEl = document.getElementById("activeFilter");
+  if (activeFilterEl) {
+    let filterText = "Active Filter: ";
+    const filters = [];
+    
+    if (selectedCategory !== "all") {
+      filters.push(selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1));
+    }
+    
+    if (minPrice > 0 || maxPrice < 999999999) {
+      filters.push(`₦${minPrice.toLocaleString()} - ₦${maxPrice.toLocaleString()}`);
+    }
+    
+    filterText += filters.length > 0 ? filters.join(", ") : "None";
+    activeFilterEl.textContent = filterText;
+  }
+}
+
+/* RENDER */
+function renderProducts(products) {
+  productGrid.innerHTML = "";
+
+  if (!products.length) {
+    productGrid.innerHTML = `<p class="col-span-full text-center text-gray-500">No products found</p>`;
+    return;
+  }
+
+  products.forEach(p => {
+    productGrid.innerHTML += `
+        <div class="bg-white w-90 item-center justify-center rounded-md p-2 flex flex-col border-2 hover:border-red-300 transition-all">
+          <div class="flex-1 mb-3 overflow-hidden rounded bg-gray-100 flex items-center justify-center">
+            <img src="${p.image}" class="w-full object-cover p-2">
+          </div>
+          <h3 class="text-sm mt-1 line-clamp-2">${p.title}</h3>
+          <p class="text-green-600 font-semibold mt-1">₦${p.price.toLocaleString()}</p>
+          <button class="mt-2 w-full bg-green-600 text-white py-1 rounded-md text-sm">
+            Add to Cart
+          </button>
+        </div>
+    `;
+  });
+}
+
+/* CATEGORY LISTENERS */
+document.querySelectorAll('input[name="category"]').forEach(radio => {
+  radio.addEventListener("change", () => {
+    selectedCategory = radio.dataset.category;
+    applyFilters();
+  });
+});
+
+/* PRICE RANGE LISTENERS */
+const priceFilters = {
+  "All Price": { min: 0, max: 999999 },
+  "Under $20": { min: 0, max: 32000 },
+  "$25 to $100": { min: 40000, max: 160000 },
+  "$100 to $300": { min: 160000, max: 480000 },
+  "$300 to $500": { min: 480000, max: 800000 },
+  "$500 to $1000": { min: 800000, max: 1600000 },
+  "$1000 to $10000": { min: 1600000, max: 999999999 }
+};
+
+document.querySelectorAll('input[name="price"]').forEach(radio => {
+  radio.addEventListener("change", (e) => {
+    const label = e.target.parentElement.querySelector("span").textContent.trim();
+    const filter = priceFilters[label];
+    if (filter) {
+      updatePriceFilter(filter.min, filter.max);
+    }
+  });
+});
+
+fetchProducts();
+
+
+const activePriceTag = document.getElementById("activePriceTag");
+const priceTagText = document.getElementById("priceTagText");
+const clearPriceTag = document.getElementById("clearPriceTag");
+
+function updatePriceFilter(min, max) {
+  minPrice = min;
+  maxPrice = max;
+
+  priceTagText.textContent = `₦${min.toLocaleString()} – ₦${max.toLocaleString()}`;
+  activePriceTag.classList.remove("hidden");
+  activePriceTag.classList.add("flex");
+
+  applyFilters();
+}
+
+clearPriceTag.addEventListener("click", () => {
+  minPrice = 0;
+  maxPrice = 10000;
+  activePriceTag.classList.add("hidden");
+  applyFilters();
+});
+
+  // Initialize both mobile and desktop range sliders using a shared initializer
+  function initRange(ids) {
+    const slider = document.getElementById(ids.sliderId);
+    if (!slider) return;
+    const minRange = document.getElementById(ids.minRangeId);
+    const maxRange = document.getElementById(ids.maxRangeId);
+    const progress = document.getElementById(ids.progressId);
+    const minInput = document.getElementById(ids.minInputId);
+    const maxInput = document.getElementById(ids.maxInputId);
+
+    // Get maxValue dynamically from maxRange (will be updated by fetchProducts)
+    const getMaxValue = () => (maxRange && parseInt(maxRange.max)) || 10000;
     const minGap = 4000;
-    const maxValue = 10000;
 
     function updateProgress() {
-      const minVal = parseInt(minRange.value);
-      const maxVal = parseInt(maxRange.value);
-
-      progress.style.left = (minVal / maxValue) * 100 + "%";
-      progress.style.right = (100 - (maxVal / maxValue) * 100) + "%";
+      const maxValue = getMaxValue();
+      const minV = parseInt(minRange.value);
+      const maxV = parseInt(maxRange.value);
+      const left = (minV / maxValue) * 100;
+      const right = (maxV / maxValue) * 100;
+      progress.style.left = left + "%";
+      progress.style.width = (right - left) + "%";
     }
 
-    // Handle min range input
-    minRange.addEventListener("input", () => {
-      let minVal = parseInt(minRange.value);
-      let maxVal = parseInt(maxRange.value);
+    function setMin(v) {
+      const maxValue = getMaxValue();
+      v = Math.max(0, Math.min(v, maxValue - minGap));
+      minRange.value = Math.round(v);
+      if (minInput) minInput.value = Math.round(v);
+    }
 
-      // Enforce: min cannot exceed max
-      if (minVal > maxVal) {
-        minVal = maxVal;
-        minRange.value = minVal;
-      }
-
-      minInput.value = minVal;
-      updateProgress();
-    });
-
-    // Handle max range input
-    maxRange.addEventListener("input", () => {
-      let minVal = parseInt(minRange.value);
-      let maxVal = parseInt(maxRange.value);
-
-      // Enforce: max cannot go below min
-      if (maxVal < minVal) {
-        maxVal = minVal;
-        maxRange.value = maxVal;
-      }
-
-      maxInput.value = maxVal;
-      updateProgress();
-    });
-
-    // Pointer (touch / pen / mouse) - improved track-based handling
-    const sliderContainer = document.getElementById("priceSlider");
-    let activeThumb = null;
+    function setMax(v) {
+      const maxValue = getMaxValue();
+      v = Math.min(maxValue, Math.max(v, parseInt(minRange.value) + minGap));
+      maxRange.value = Math.round(v);
+      if (maxInput) maxInput.value = Math.round(v);
+    }
 
     function valueFromClientX(clientX) {
-      if (!sliderContainer) return 0;
-      const rect = sliderContainer.getBoundingClientRect();
-      let fraction = (clientX - rect.left) / rect.width;
-      fraction = Math.max(0, Math.min(1, fraction));
-      return Math.round(fraction * maxValue);
+      const maxValue = getMaxValue();
+      const rect = slider.getBoundingClientRect();
+      const pct = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+      return Math.round(pct * maxValue);
     }
 
-    // Track-based dragging
-    sliderContainer.addEventListener("pointerdown", (e) => {
-      const clickValue = valueFromClientX(e.clientX);
-      const curMin = parseInt(minRange.value);
-      const curMax = parseInt(maxRange.value);
-      const distToMin = Math.abs(clickValue - curMin);
-      const distToMax = Math.abs(clickValue - curMax);
+    let active = null;
 
-      activeThumb = distToMin <= distToMax ? "min" : "max";
-    });
+    function onPointerDown(e) {
+      e.preventDefault();
+      const clientX = e.clientX || (e.touches && e.touches[0] && e.touches[0].clientX);
+      const val = valueFromClientX(clientX);
+      const dMin = Math.abs(val - parseInt(minRange.value));
+      const dMax = Math.abs(val - parseInt(maxRange.value));
+      active = dMin < dMax ? 'min' : 'max';
+      window.addEventListener('pointermove', onPointerMove);
+      window.addEventListener('pointerup', onPointerUp);
+      onPointerMove(e);
+    }
 
-    document.addEventListener("pointermove", (e) => {
-      if (!activeThumb || !sliderContainer) return;
-      const rect = sliderContainer.getBoundingClientRect();
-      if (e.clientX < rect.left || e.clientX > rect.right) return;
-
-      const val = valueFromClientX(e.clientX);
-      
-      if (activeThumb === "min") {
-        const maxVal = parseInt(maxRange.value);
-        const newVal = Math.max(0, Math.min(val, maxVal - minGap));
-        minRange.value = newVal;
-        minInput.value = newVal;
-      } else if (activeThumb === "max") {
-        const minVal = parseInt(minRange.value);
-        const newVal = Math.min(maxValue, Math.max(val, minVal + minGap));
-        maxRange.value = newVal;
-        maxInput.value = newVal;
+    function onPointerMove(e) {
+      const clientX = e.clientX || (e.touches && e.touches[0] && e.touches[0].clientX);
+      const val = valueFromClientX(clientX);
+      if (active === 'min') {
+        const newMin = Math.min(val, parseInt(maxRange.value) - minGap);
+        setMin(newMin);
+      } else if (active === 'max') {
+        const newMax = Math.max(val, parseInt(minRange.value) + minGap);
+        setMax(newMax);
       }
       updateProgress();
-    });
+      updatePriceFilter(parseInt(minRange.value), parseInt(maxRange.value));
+    }
 
-    document.addEventListener("pointerup", () => {
-      activeThumb = null;
-    });
+    function onPointerUp() {
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
+      active = null;
+    }
 
-    document.addEventListener("pointercancel", () => {
-      activeThumb = null;
-    });
+    slider.addEventListener('pointerdown', onPointerDown);
 
-    // INPUT FIELDS
-    minInput.addEventListener("input", () => {
-      let val = parseInt(minInput.value) || 0;
-      const maxVal = parseInt(maxRange.value);
+    if (minInput) {
+      minInput.addEventListener('input', () => {
+        let v = parseInt(minInput.value) || 0;
+        v = Math.max(0, Math.min(v, parseInt(maxRange.value) - minGap));
+        setMin(v);
+        updateProgress();
+        updatePriceFilter(parseInt(minRange.value), parseInt(maxRange.value));
+      });
+    }
 
-      if (val > maxVal - minGap) val = maxVal - minGap;
-      if (val < 0) val = 0;
+    if (maxInput) {
+      maxInput.addEventListener('input', () => {
+        let v = parseInt(maxInput.value) || maxValue;
+        v = Math.min(maxValue, Math.max(v, parseInt(minRange.value) + minGap));
+        setMax(v);
+        updateProgress();
+        updatePriceFilter(parseInt(minRange.value), parseInt(maxRange.value));
+      });
+    }
 
-      minRange.value = val;
-      minInput.value = val;
-      updateProgress();
-    });
-
-    maxInput.addEventListener("input", () => {
-      let val = parseInt(maxInput.value) || 10000;
-      const minVal = parseInt(minRange.value);
-
-      if (val < minVal + minGap) val = minVal + minGap;
-      if (val > maxValue) val = maxValue;
-
-      maxRange.value = val;
-      maxInput.value = val;
-      updateProgress();
-    });
-
-    // Initialize progress on load
+    // initialize
     updateProgress();
   }
 
-  // Initialize price range when DOM is ready
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initPriceRange);
-  } else {
-    initPriceRange();
+  function initAllRanges() {
+    initRange({
+      sliderId: 'priceSlider',
+      minRangeId: 'minRange',
+      maxRangeId: 'maxRange',
+      progressId: 'progress',
+      minInputId: 'minInput',
+      maxInputId: 'maxInput'
+    });
+
+    initRange({
+      sliderId: 'priceSliderDesktop',
+      minRangeId: 'minRangeDesktop',
+      maxRangeId: 'maxRangeDesktop',
+      progressId: 'progressDesktop',
+      minInputId: 'minInputDesktop',
+      maxInputId: 'maxInputDesktop'
+    });
   }
 
-  // Initialize desktop price range
-  function initDesktopPriceRange() {
-    const minRange = document.getElementById("minRangeDesktop");
-    const maxRange = document.getElementById("maxRangeDesktop");
-    const minInput = document.getElementById("minInputDesktop");
-    const maxInput = document.getElementById("maxInputDesktop");
-    const progress = document.getElementById("progressDesktop");
-
-    if (!minRange || !maxRange) return;
-
-    const minGap = 4000;
-    const maxValue = 10000;
-
-    function updateProgress() {
-      const minVal = parseInt(minRange.value);
-      const maxVal = parseInt(maxRange.value);
-
-      progress.style.left = (minVal / maxValue) * 100 + "%";
-      progress.style.right = (100 - (maxVal / maxValue) * 100) + "%";
-    }
-
-    minRange.addEventListener("input", () => {
-      let minVal = parseInt(minRange.value);
-      let maxVal = parseInt(maxRange.value);
-      if (minVal > maxVal) {
-        minVal = maxVal;
-        minRange.value = minVal;
-      }
-      minInput.value = minVal;
-      updateProgress();
-    });
-
-    maxRange.addEventListener("input", () => {
-      let minVal = parseInt(minRange.value);
-      let maxVal = parseInt(maxRange.value);
-      if (maxVal < minVal) {
-        maxVal = minVal;
-        maxRange.value = maxVal;
-      }
-      maxInput.value = maxVal;
-      updateProgress();
-    });
-
-    const sliderContainer = document.getElementById("priceSliderDesktop");
-    let activeThumb = null;
-
-    function valueFromClientX(clientX) {
-      if (!sliderContainer) return 0;
-      const rect = sliderContainer.getBoundingClientRect();
-      let fraction = (clientX - rect.left) / rect.width;
-      fraction = Math.max(0, Math.min(1, fraction));
-      return Math.round(fraction * maxValue);
-    }
-
-    sliderContainer.addEventListener("pointerdown", (e) => {
-      const clickValue = valueFromClientX(e.clientX);
-      const curMin = parseInt(minRange.value);
-      const curMax = parseInt(maxRange.value);
-      const distToMin = Math.abs(clickValue - curMin);
-      const distToMax = Math.abs(clickValue - curMax);
-      activeThumb = distToMin <= distToMax ? "min" : "max";
-    });
-
-    document.addEventListener("pointermove", (e) => {
-      if (!activeThumb || !sliderContainer) return;
-      const rect = sliderContainer.getBoundingClientRect();
-      if (e.clientX < rect.left || e.clientX > rect.right) return;
-
-      const val = valueFromClientX(e.clientX);
-      
-      if (activeThumb === "min") {
-        const maxVal = parseInt(maxRange.value);
-        const newVal = Math.max(0, Math.min(val, maxVal - minGap));
-        minRange.value = newVal;
-        minInput.value = newVal;
-      } else if (activeThumb === "max") {
-        const minVal = parseInt(minRange.value);
-        const newVal = Math.min(maxValue, Math.max(val, minVal + minGap));
-        maxRange.value = newVal;
-        maxInput.value = newVal;
-      }
-      updateProgress();
-    });
-
-    document.addEventListener("pointerup", () => {
-      activeThumb = null;
-    });
-
-    document.addEventListener("pointercancel", () => {
-      activeThumb = null;
-    });
-
-    minInput.addEventListener("input", () => {
-      let val = parseInt(minInput.value) || 0;
-      const maxVal = parseInt(maxRange.value);
-      if (val > maxVal - minGap) val = maxVal - minGap;
-      if (val < 0) val = 0;
-      minRange.value = val;
-      minInput.value = val;
-      updateProgress();
-    });
-
-    maxInput.addEventListener("input", () => {
-      let val = parseInt(maxInput.value) || 10000;
-      const minVal = parseInt(minRange.value);
-      if (val < minVal + minGap) val = minVal + minGap;
-      if (val > maxValue) val = maxValue;
-      maxRange.value = val;
-      maxInput.value = val;
-      updateProgress();
-    });
-
-    updateProgress();
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initDesktopPriceRange);
-  } else {
-    initDesktopPriceRange();
-  }
+  // Note: initAllRanges() is now called from fetchProducts() after max values are set
+  // This ensures sliders use the correct maxValue
 
 
 
@@ -438,10 +498,31 @@ overlay.addEventListener("click", () => {
 
   items.forEach(item => {
     item.addEventListener("click", () => {
+      const value = item.dataset.value;
+      sortBy = value;
       selectedText.textContent = item.textContent.trim();
-      items.forEach(i => i.querySelector("i").classList.add("hidden"));
-      item.querySelector("i").classList.remove("hidden");
+      
+      // Move checkmark and background to selected item only
+      items.forEach(i => {
+        let icon = i.querySelector("i");
+        if (!icon) {
+          // Create icon if it doesn't exist
+          icon = document.createElement("i");
+          icon.className = "fa fa-check text-sm text-green-600";
+          i.appendChild(icon);
+        }
+        
+        if (i.dataset.value === value) {
+          icon.style.display = "block";
+          i.classList.add("bg-gray-100");
+        } else {
+          icon.style.display = "none";
+          i.classList.remove("bg-gray-100");
+        }
+      });
+      
       options.classList.add("hidden");
+      applyFilters();
     });
   });
 
